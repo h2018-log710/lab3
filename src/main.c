@@ -31,8 +31,19 @@ void print_mem()
 
 int main(int argc, char* argv[])
 {
+    printf("Initialisation ");
     initmem();
-    first_fit_alloumem(4);
+    
+    printf("[Blocs libres: %d Blocs alloues: %d]\n", nbloclibres(), nblocalloues());
+    printf("[Memoire libre: %d Taille bloc libre eleve: %d]\n", memlibre(), mem_pgrand_libre());
     print_mem();
+    
+    printf("Allocation ");    
+    first_fit_alloumem(sizeof(int));
+    
+    printf("[Blocs libres: %d Blocs alloues: %d]\n", nbloclibres(), nblocalloues());
+    printf("[Memoire libre: %d Taille bloc libre eleve: %d]\n", memlibre(), mem_pgrand_libre());
+    print_mem();
+    
     return 0;
 }
