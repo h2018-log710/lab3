@@ -17,6 +17,8 @@ typedef struct Block
 } Block;
 
 bool partition_block(Block* alloc_block, Block** free_block, size_t alloc_size);
+Node* create_node(size_t size, uintptr_t address, bool is_free);
+void free_node(Node* node);
 void initmem();
 void liberemem(void* pBloc);
 int nbloclibres();
