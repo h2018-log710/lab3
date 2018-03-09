@@ -79,5 +79,21 @@ int mem_small_free(int maxTaillePetit)
 
 bool mem_est_alloue(void* pOctet)
 {
+    Node* current_node = list.head;
+    Block* current_block = NULL;
+
+    while (current_node)
+    {
+        current_block = (Block*)current_node->value;
     
+        if (current_block->address >= pOctet && 
+           (current_block->address + current_block->size) < pOctet)
+        {
+            return !current_block->is_free;
+        }
+        
+        current_node = current_node->next;
+    }
+
+    return false;
 }
