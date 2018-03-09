@@ -5,7 +5,7 @@
 #include <stdint.h>
 #include "list.h"
 
-#define TOTAL_MEMORY 0xFF
+#define TOTAL_MEMORY 0x100
 
 extern List list;
 
@@ -15,6 +15,8 @@ typedef struct Block
     intptr_t address;
     bool is_free;
 } Block;
+
+void dbg_print_list_addr();
 
 bool partition_block(Block* alloc_block, Block** free_block, size_t alloc_size);
 Node* create_node(size_t size, uintptr_t address, bool is_free);

@@ -16,14 +16,14 @@ Block* first_fit_alloumem(size_t size)
 
             if (partition_block(current_block, &free_block, size))
             {
-		if (free_block->size != 0)
+                if (free_block->size != 0)
                 {
                     Node* next_node = current_node->next;
-                    Node* new_node = malloc(sizeof(Node));
+                    Node* free_node = malloc(sizeof(Node));
         
-                    new_node->value = free_block;
-                    new_node->next = next_node;
-                    current_node->next = new_node;
+                    free_node->value = free_block;
+                    free_node->next = next_node;
+                    current_node->next = free_node;
                 }
          
                 break;

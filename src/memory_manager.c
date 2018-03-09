@@ -1,7 +1,18 @@
 #include "memory_manager.h"
+#include <stdio.h>
 #include <stdlib.h>
 
 List list;
+
+void dbg_print_list_addr()
+{
+    Node* current_node = list.head;
+    while(current_node)
+    {
+        printf("node:%x block:%x is_free:%d\n", current_node, current_node->value, ((Block*)current_node->value)->is_free);
+        current_node = current_node->next;
+    }
+}
 
 bool partition_block(Block* alloc_block, Block** free_block, size_t alloc_size)
 {
@@ -39,7 +50,7 @@ Node* create_node(size_t size, uintptr_t address, bool is_free)
 void free_node(Node* node)
 {
     free(node->value);
-    free(node);
+    list_remove(&list, node);
 }
 
 void initmem()
@@ -56,38 +67,36 @@ void liberemem(void* pBloc)
     while (current_node)
     {
         current_block = (Block*)current_node->value;
-    
         if (current_block == pBloc)
         {
             Block* next_block = current_node->next ? current_node->next->value : NULL;
-            Node* remove_node = NULL;
+            bool merged = false;
+
+            if (next_block && next_block->is_free)
+            {
+                // We extend the current block
+                current_block->size += next_block->size;
+                current_block->is_free = true;
+                // The next node is elected to be removed
+                free_node(current_node->next);
+                merged = true;
+            }
 
             if(previous_block && previous_block->is_free)
             {
                 // We extend the previous free block
                 previous_block->size += current_block->size;
                 // The current node is elected to be removed
-                remove_node = current_node;
+                free_node(current_node);
+                merged = true;
+            }
 
-            }
-            else if (next_block && next_block->is_free)
-            {
-                // We extend the current block
-                current_block->size += next_block->size;
-                current_block->is_free = true;
-                // The next node is elected to be removed
-                remove_node = current_node->next;
-            }
-            else
+            if(!merged)
             {
                 // There is no free block around
                 current_block->is_free = true;
             }
-
-            if(remove_node)
-            {
-                list_remove(&list, remove_node);
-            }
+            
             break;
         }
        
@@ -198,5 +207,5 @@ bool mem_est_alloue(void* pOctet)
         current_node = current_node->next;
     }
 
-    return true;
+    return false;
 }

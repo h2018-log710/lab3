@@ -52,10 +52,12 @@ int main(int argc, char* argv[])
     print_mem();
     
     printf("Allocation ");    
-    first_fit_alloumem(2);
-    //Block* b = first_fit_alloumem(2);
-    //liberemem(b);
-    first_fit_alloumem(2);
+    Block* a = first_fit_alloumem(2);
+    Block* b = first_fit_alloumem(5);
+    Block* c =first_fit_alloumem(3);
+    Block* d =first_fit_alloumem(2);
+    liberemem(a);
+    liberemem(c);
     printf("[Blocs libres: %d Blocs alloues: %d]\n", nbloclibres(), nblocalloues());
     printf("[Memoire libre: %d Taille bloc libre eleve: %d]\n", memlibre(), mem_pgrand_libre());
     print_mem();

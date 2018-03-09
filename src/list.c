@@ -3,22 +3,12 @@
 
 bool list_empty(const List* list)
 {
-    if (list_size(list) == 0)
+    if (list->head)
     {
         return true;
     }
     
     return false;
-}
-
-size_t list_size(const List* list)
-{
-    if (list)
-    {
-        return list->size;
-    }
-    
-    return 0;
 }
 
 Node* list_front(List* list)
@@ -31,171 +21,59 @@ Node* list_front(List* list)
     return NULL;
 }
 
-Node* list_back(List* list)
-{    
-    if (list)
+void list_insert_after(List* list, void* value, Node* node)
+{
+    if (list && node)
     {
-        return list->tail;
+        Node* current_node = list->head;
+
+        while(current_node)
+        {
+            if(current_node == node)
+            {
+                Node* new_node = malloc(sizeof(Node));
+
+                new_node->value = value;
+                new_node->next = current_node->next;
+                current_node->next = new_node;
+
+                break;
+            }
+
+            current_node = current_node->next;
+        }
     }
-    
-    return NULL;
-}
-
-void list_push_front(List* list, void* value)
-{
-    if (list)
-    {
-        Node* new = malloc(sizeof(Node));
-        
-        new->value = value;
-        new->previous = NULL;
-        new->next = list->head;
-        
-        if (list->size > 0)
-        {
-            list->head->previous = new;
-        }
-        
-        else
-        {
-            list->tail = new;
-        }
-        
-        list->head = new;
-        ++list->size;
-    }
-}
-
-void list_push_back(List* list, void* value)
-{
-    if (list)
-    {
-        Node* new = malloc(sizeof(Node));
-        
-        new->value = value;
-        new->previous = list->tail;
-        new->next = NULL;
-        
-        if (list->size > 0)
-        {
-            list->tail->next = new;
-        }
-        
-        else
-        {
-            list->head = new;
-        }
-        
-        list->tail = new;
-        ++list->size;
-    }
-}
-
-void list_pop_front(List* list)
-{
-    if (list && list->size > 0)
-    {
-        Node* new = list->head->next;
-        free(list->head);
-        
-        if (list->size > 1)
-        {
-            new->previous = NULL;
-        }
-        
-        else
-        {
-            list->tail = new;
-        }
-        
-        list->head = new;
-        --list->size;
-    }
-}
-
-void list_pop_back(List* list)
-{
-    if (list && list->size > 0)
-    {
-        Node* new = list->tail->previous;
-        free(list->tail);
-        
-        if (list->size == 1)
-        {
-            new->next = NULL;
-        }
-        
-        else
-        {
-            list->head = new;
-        }
-        
-        list->tail = new;
-        --list->size;
-    }
-}
-
-void list_insert(List* list, void* value, int position)
-{
-    // TODO
-}
-
-void list_erase(List* list, int position)
-{
-    // TODO
 }
 
 void list_remove(List* list, Node* node)
 {
     if (list && node)
     {
-        Node* previous = node->previous;
-        Node* next = node->next;
-        
-        free(node);
-        
-        if (previous != NULL)
+        Node* current_node = list->head;
+        Node* previous_node = NULL;
+
+        while(current_node)
         {
-            previous->next = next;
+            if(current_node == node)
+            {
+                if(current_node == list->head)
+                {
+                    list->head = current_node->next;
+                }
+               
+                if(previous_node)
+                {
+                    previous_node->next = current_node->next;
+                }
+
+                current_node->value = NULL;
+                free(current_node);
+                break;
+            }
+
+            previous_node = current_node;
+            current_node = current_node->next;
         }
-        
-        else
-        {
-            list->head = next;
-        }
-        
-        if (next != NULL)
-        {
-            next->previous = previous;
-        }
-        
-        else
-        {
-            list->tail = previous;
-        }
-        
-        --list->size;
     }
 }
 
-static void list_clear_nodes(Node* node)
-{
-    if (node)
-    {
-        Node* next = node->next;
-        free(node);
-        list_clear_nodes(next);
-    }
-}
-
-void list_clear(List* list)
-{
-    if (list)
-    {
-        list_clear_nodes(list->head);
-        
-        list->size = 0;
-        list->head = NULL;
-        list->tail = NULL;
-    }
-}
