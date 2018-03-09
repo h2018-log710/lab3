@@ -43,8 +43,7 @@ void free_node(Node* node)
 
 void initmem()
 {
-    Node* node = create_node(TOTAL_MEMORY, 0x0, true);
-    list_push_back(&list, node);
+    list.head = create_node(TOTAL_MEMORY, 0x0, true);
 }
 
 void liberemem(void* pBloc)
@@ -54,30 +53,90 @@ void liberemem(void* pBloc)
 
 int nbloclibres()
 {
-    
+    Node* current_node = list.head;
+    int num_free_blocks = 0;
+
+    while (current_node)
+    {
+	Block* current_block = (Block*)current_node->value;
+	
+	if (current_block->is_free)
+	{
+	    ++num_free_blocks;
+	}
+
+	current_node = current_node->next;
+    }
+
+    return num_free_blocks;
 }
 
 int nblocalloues()
 {
-    
+    Node* current_node = list.head;
+    int num_alloc_blocks = 0;
+
+    while (current_node)
+    {
+	Block* current_block = (Block*)current_node->value;
+	
+	if (!current_block->is_free)
+	{
+	    ++num_alloc_blocks;
+	}
+
+	current_node = current_node->next;
+    }
+
+    return num_alloc_blocks;
 }
 
 int memlibre()
 {
-    
+    Node* current_node = list.head;
+    int num_free_mem = 0;
+
+    while (current_node)
+    {
+	Block* current_block = (Block*)current_node->value;
+	
+	if (current_block->is_free)
+	{
+	    num_free_mem += current_block->size;
+	}
+
+	current_node = current_node->next;
+    }
+
+    return num_free_mem;
 }
 
 int mem_pgrand_libre()
 {
-    
+    Node* current_node = list.head; 
+    int num_free_highest_mem = 0;
+
+    while (current_node)
+    {
+	Block* current_block = (Block*)current_node->value;
+	
+	if (current_block->is_free && current_block->size > num_free_highest_mem)
+	{
+	    num_free_highest_mem = current_block->size;
+	}
+
+	current_node = current_node->next;
+    }
+
+    return num_free_highest_mem;
 }
 
 int mem_small_free(int maxTaillePetit)
 {
-    
+    return 0;
 }
 
 bool mem_est_alloue(void* pOctet)
 {
-    
+    return false;
 }
