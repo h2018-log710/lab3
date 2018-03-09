@@ -7,8 +7,8 @@
 typedef struct Node
 {
     void* value;
-    struct Node* previous;
     struct Node* next;
+    struct Node* previous;
 } Node;
 
 typedef struct List

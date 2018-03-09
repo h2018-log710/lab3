@@ -3,11 +3,11 @@
 
 #include <stdbool.h>
 #include <stdint.h>
+#include "list.h"
 
-#include "first_fit.h"
-#include "best_fit.h"
-#include "worst_fit.h"
-#include "next_fit.h"
+#define TOTAL_MEMORY 1024
+
+extern List list;
 
 typedef struct Block
 {
@@ -16,8 +16,9 @@ typedef struct Block
     bool is_free;
 } Block;
 
+bool partition_block(Block* alloc_block, Block** free_block, size_t alloc_size);
 void initmem();
-void* pBloc alloumem();
+Block* alloumem(size_t size);
 void liberemem(void* pBloc);
 int nbloclibres();
 int nblocalloues();

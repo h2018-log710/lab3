@@ -20,11 +20,11 @@ $(EXTRA_TARGET): $(extra_objects)
 	$(CC) -o $(BINDIR)/$(EXTRA_TARGET) $(LDFLAGS) $(extra_objects)
 
 main.o: memory_manager.h
-memory_manager.o: memory_manager.h first_fit.h best_fit.h worst_fit.h next_fit.h
-first_fit.o: first_fit.h
-best_fit.o: best_fit.h
-worst_fit.o: worst_fit.h
-next_fit.o: next_fit.h
+memory_manager.o: memory_manager.h list.h
+first_fit.o: memory_manager.h list.h
+best_fit.o: memory_manager.h list.h
+worst_fit.o: memory_manager.h list.h
+next_fit.o: memory_manager.h list.h
 list.o: list.h
 
 clean:
