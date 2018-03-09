@@ -15,7 +15,7 @@ void print_mem()
     {
         for(int j = 0; j < 8; j++)
         {
-            if(mem_est_alloue(i))
+            if(mem_est_alloue(i+j))
             {
                 c[j] = alloc_c;
             }
@@ -39,8 +39,8 @@ int main(int argc, char* argv[])
     print_mem();
     
     printf("Allocation ");    
-    first_fit_alloumem(sizeof(int));
-    
+    first_fit_alloumem(8);
+    first_fit_alloumem(8);
     printf("[Blocs libres: %d Blocs alloues: %d]\n", nbloclibres(), nblocalloues());
     printf("[Memoire libre: %d Taille bloc libre eleve: %d]\n", memlibre(), mem_pgrand_libre());
     print_mem();
