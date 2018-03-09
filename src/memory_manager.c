@@ -12,6 +12,7 @@ bool partition_block(Block* alloc_block, Block** free_block, size_t alloc_size)
        (*free_block)->size = alloc_block->size - alloc_size;
        (*free_block)->address = alloc_block->address + alloc_size;
        (*free_block)->is_free = true;
+       alloc_block->size = alloc_size;
        alloc_block->is_free = false;
 
        return true;
@@ -188,9 +189,8 @@ bool mem_est_alloue(void* pOctet)
     while (current_node)
     {
         current_block = (Block*)current_node->value;
-    
-        if (current_block->address >= pOctet && 
-           (current_block->address + current_block->size) > pOctet)
+
+        if (current_block->address + current_block->size > pOctet)
         {
             return !current_block->is_free;
         }
@@ -198,5 +198,5 @@ bool mem_est_alloue(void* pOctet)
         current_node = current_node->next;
     }
 
-    return false;
+    return true;
 }
