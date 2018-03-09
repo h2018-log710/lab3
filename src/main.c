@@ -7,5 +7,7 @@
 
 int main(int argc, char* argv[])
 {
+    initmem();
+    alloumem(sizeof(int));
     return 0;
 }
