@@ -49,7 +49,51 @@ void initmem()
 
 void liberemem(void* pBloc)
 {
+    Node* current_node = list.head;
+    Block* previous_block = NULL;
+    Block* current_block = NULL;
+
+    while (current_node)
+    {
+        current_block = (Block*)current_node->value;
     
+        if (current_block == pBloc)
+        {
+            Block* next_block = current_node->next ? current_node->next->value : NULL;
+            Node* remove_node = NULL;
+
+            if(previous_block && previous_block->is_free)
+            {
+                // We extend the previous free block
+                previous_block->size += current_block->size;
+                // The current node is elected to be removed
+                remove_node = current_node;
+
+            }
+            else if (next_block && next_block->is_free)
+            {
+                // We extend the current block
+                current_block->size += next_block->size;
+                current_block->is_free = true;
+                // The next node is elected to be removed
+                remove_node = current_node->next;
+            }
+            else
+            {
+                // There is no free block around
+                current_block->is_free = true;
+            }
+
+            if(remove_node)
+            {
+                list_remove(&list, remove_node);
+            }
+            break;
+        }
+       
+        previous_block = current_node->value;
+        current_node = current_node->next;
+    }
 }
 
 int nbloclibres()
