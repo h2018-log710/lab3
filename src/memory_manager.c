@@ -5,7 +5,7 @@ List list;
 
 bool partition_block(Block* alloc_block, Block** free_block, size_t alloc_size)
 {
-   if (alloc_block->size <= alloc_size)
+   if (alloc_block->size >= alloc_size)
    {
        *free_block = malloc(sizeof(Block));
        
