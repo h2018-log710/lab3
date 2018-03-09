@@ -1,7 +1,7 @@
 #include "memory_manager.h"
 #include <stdlib.h>
 
-Block* alloumem(size_t size)
+Block* first_fit_alloumem(size_t size)
 {
     Node* current_node = list.head;
     Block* current_block = NULL;
