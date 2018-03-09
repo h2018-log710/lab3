@@ -23,9 +23,7 @@ Block* alloumem(size_t size)
         
                     new_node->value = free_block;
                     new_node->next = next_node;
-                    next_node = new_node;
-
-                    current_block = current_block;
+                    current_node->next = new_node;
                 }
          
                 break;
