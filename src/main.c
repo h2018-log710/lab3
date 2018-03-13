@@ -11,7 +11,7 @@ void print_mem()
     const char free_c = 'O';
     char c1[5] = {'\0'};
     char c2[5] = {'\0'};
-
+    
     for (int i = 0; i < TOTAL_MEMORY; i+=8)
     {
         for (int j = 0; j < 4; j++)
@@ -54,6 +54,7 @@ int main(int argc, char* argv[])
     print_mem();
     
     printf("Allocation ");    
+    
     Block* a = alloumem(2, WORST_FIT);
     Block* b = alloumem(5, WORST_FIT);
     Block* c = alloumem(3, WORST_FIT);
@@ -61,9 +62,14 @@ int main(int argc, char* argv[])
     liberemem(a);
     liberemem(c);
     Block* e = alloumem(1, WORST_FIT);
+    
     printf("[Blocs libres: %d Blocs alloues: %d]\n", nbloclibres(), nblocalloues());
     printf("[Memoire libre: %d Taille bloc libre eleve: %d]\n", memlibre(), mem_pgrand_libre());
     print_mem();
+    
+    liberemem(b);
+    liberemem(d);
+    liberemem(e);
     
     return 0;
 }

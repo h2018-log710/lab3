@@ -10,7 +10,7 @@ void dbg_print_list_addr()
     
     while (current_node)
     {
-        printf("node:%x block:%x is_free:%d\n", current_node, current_node->value, ((Block*)current_node->value)->is_free);
+        printf("node:%p block:%p is_free:%d\n", current_node, current_node->value, ((Block*)current_node->value)->is_free);
         current_node = current_node->next;
     }
 }
@@ -64,17 +64,13 @@ Block* alloumem(size_t size, AllocationStrategy alloc_strategy)
     switch (alloc_strategy)
     {
         case FIRST_FIT:
-            first_fit_alloumem(size);
-            break;
+            return first_fit_alloumem(size);
         case BEST_FIT:
-            best_fit_alloumem(size);
-            break;
+            return best_fit_alloumem(size);
         case WORST_FIT:
-            worst_fit_alloumem(size);
-            break;
+            return worst_fit_alloumem(size);
         default:
-            first_fit_alloumem(size);
-            break;
+            return first_fit_alloumem(size);
     }
 }
 
@@ -213,7 +209,7 @@ int mem_small_free(int maxTaillePetit)
     return 0;
 }
 
-bool mem_est_alloue(void* pOctet)
+bool mem_est_alloue(unsigned char pOctet)
 {
     Node* current_node = list.head;
     Block* current_block = NULL;

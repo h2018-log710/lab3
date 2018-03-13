@@ -1,4 +1,5 @@
 #include "memory_manager.h"
+#include <stdlib.h>
 
 Block* worst_fit_alloumem(size_t size)
 {
