@@ -1,5 +1,3 @@
-#include <stdlib.h>
-
 #include "memory_manager.h"
 
 Block* best_fit_alloumem(size_t size)

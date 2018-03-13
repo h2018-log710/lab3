@@ -1,5 +1,4 @@
 #include "memory_manager.h"
-#include <stdlib.h>
 
 Block* first_fit_alloumem(size_t size)
 {

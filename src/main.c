@@ -54,12 +54,13 @@ int main(int argc, char* argv[])
     print_mem();
     
     printf("Allocation ");    
-    Block* a = alloumem(2, BEST_FIT);
-    //Block* b = alloumem(5, FIRST_FIT);
-    //Block* c = alloumem(3, FIRST_FIT);
-    //Block* d = alloumem(2, FIRST_FIT);
-    //liberemem(a);
-    //liberemem(b);
+    Block* a = alloumem(2, WORST_FIT);
+    Block* b = alloumem(5, WORST_FIT);
+    Block* c = alloumem(3, WORST_FIT);
+    Block* d = alloumem(2, WORST_FIT);
+    liberemem(a);
+    liberemem(c);
+    Block* e = alloumem(1, WORST_FIT);
     printf("[Blocs libres: %d Blocs alloues: %d]\n", nbloclibres(), nblocalloues());
     printf("[Memoire libre: %d Taille bloc libre eleve: %d]\n", memlibre(), mem_pgrand_libre());
     print_mem();

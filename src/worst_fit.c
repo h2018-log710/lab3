@@ -1,5 +1,3 @@
-#include <stdlib.h>
-
 #include "memory_manager.h"
 
 Block* worst_fit_alloumem(size_t size)
@@ -12,9 +10,9 @@ Block* worst_fit_alloumem(size_t size)
         Block* current_block = (Block*)current_node->value;
         
         if (current_block->is_free &&
-            current_block->size <= size &&
+            current_block->size >= size &&
             (!candidate_node ||
-            (candidate_node && current_block->size < ((Block*)candidate_node->value)->size)))
+            (candidate_node && current_block->size > ((Block*)candidate_node->value)->size)))
         {
             candidate_node = current_node;
         }
