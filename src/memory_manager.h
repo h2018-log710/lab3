@@ -9,6 +9,13 @@
 
 extern List list;
 
+typedef enum ALLOCATION_STRATEGY
+{
+    FIRST_FIT,
+    BEST_FIT,
+    WORST_FIT
+} AllocationStrategy;
+
 typedef struct Block
 {
     size_t size;
@@ -17,11 +24,12 @@ typedef struct Block
 } Block;
 
 void dbg_print_list_addr();
-
 bool partition_block(Block* alloc_block, Block** free_block, size_t alloc_size);
 Node* create_node(size_t size, uintptr_t address, bool is_free);
 void free_node(Node* node);
+
 void initmem();
+Block* alloumem(size_t size, AllocationStrategy alloc_strategy);
 void liberemem(void* pBloc);
 int nbloclibres();
 int nblocalloues();

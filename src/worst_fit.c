@@ -36,7 +36,7 @@ Block* worst_fit_alloumem(size_t size)
                 
                 free_node->value = free_block;
                 free_node->next = next_node;
-                current_node->next = free_node;
+                candidate_node->next = free_node;
             }
             
             return candidate_block;

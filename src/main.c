@@ -12,26 +12,28 @@ void print_mem()
     char c1[5] = {'\0'};
     char c2[5] = {'\0'};
 
-    for(int i = 0; i < TOTAL_MEMORY; i+=8)
+    for (int i = 0; i < TOTAL_MEMORY; i+=8)
     {
-        for(int j = 0; j < 4; j++)
+        for (int j = 0; j < 4; j++)
         {
-            if(mem_est_alloue(i+j))
+            if (mem_est_alloue(i+j))
             {
                 c1[j] = alloc_c;
             }
+            
             else
             {
                 c1[j] = free_c;
             }
         }
         
-        for(int j = 4; j < 8; j++)
+        for (int j = 4; j < 8; j++)
         {
-            if(mem_est_alloue(i+j))
+            if (mem_est_alloue(i+j))
             {
                 c2[j-4] = alloc_c;
             }
+            
             else
             {
                 c2[j-4] = free_c;
@@ -52,12 +54,12 @@ int main(int argc, char* argv[])
     print_mem();
     
     printf("Allocation ");    
-    Block* a = first_fit_alloumem(2);
-    Block* b = first_fit_alloumem(5);
-    Block* c = first_fit_alloumem(3);
-    //Block* d = first_fit_alloumem(2);
-    liberemem(a);
-    liberemem(b);
+    Block* a = alloumem(2, BEST_FIT);
+    //Block* b = alloumem(5, FIRST_FIT);
+    //Block* c = alloumem(3, FIRST_FIT);
+    //Block* d = alloumem(2, FIRST_FIT);
+    //liberemem(a);
+    //liberemem(b);
     printf("[Blocs libres: %d Blocs alloues: %d]\n", nbloclibres(), nblocalloues());
     printf("[Memoire libre: %d Taille bloc libre eleve: %d]\n", memlibre(), mem_pgrand_libre());
     print_mem();

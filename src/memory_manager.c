@@ -59,6 +59,25 @@ void initmem()
     list.head = create_node(TOTAL_MEMORY, 0x0, true);
 }
 
+Block* alloumem(size_t size, AllocationStrategy alloc_strategy)
+{
+    switch (alloc_strategy)
+    {
+        case FIRST_FIT:
+            first_fit_alloumem(size);
+            break;
+        case BEST_FIT:
+            best_fit_alloumem(size);
+            break;
+        case WORST_FIT:
+            worst_fit_alloumem(size);
+            break;
+        default:
+            first_fit_alloumem(size);
+            break;
+    }
+}
+
 void liberemem(void* pBloc)
 {
     Node* current_node = list.head;
