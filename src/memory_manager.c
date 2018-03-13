@@ -7,7 +7,8 @@ List list;
 void dbg_print_list_addr()
 {
     Node* current_node = list.head;
-    while(current_node)
+    
+    while (current_node)
     {
         printf("node:%x block:%x is_free:%d\n", current_node, current_node->value, ((Block*)current_node->value)->is_free);
         current_node = current_node->next;
@@ -25,10 +26,10 @@ bool partition_block(Block* alloc_block, Block** free_block, size_t alloc_size)
        (*free_block)->is_free = true;
        alloc_block->size = alloc_size;
        alloc_block->is_free = false;
-
+       
        return true;
    }
-
+   
    return false;
 }
 
@@ -43,7 +44,7 @@ Node* create_node(size_t size, uintptr_t address, bool is_free)
     
     node->value = block;
     node->next = NULL;
-
+    
     return node;
 }
 
@@ -63,43 +64,46 @@ void liberemem(void* pBloc)
     Node* current_node = list.head;
     Block* previous_block = NULL;
     Block* current_block = NULL;
-
+    
     while (current_node)
     {
         current_block = (Block*)current_node->value;
+        
         if (current_block == pBloc)
         {
             Block* next_block = current_node->next ? current_node->next->value : NULL;
             bool merged = false;
-
+            
             if (next_block && next_block->is_free)
             {
-                // We extend the current block
+                // We extend the current block.
                 current_block->size += next_block->size;
                 current_block->is_free = true;
-                // The next node is elected to be removed
+                
+                // The next node is elected to be removed.
                 free_node(current_node->next);
                 merged = true;
             }
-
-            if(previous_block && previous_block->is_free)
+            
+            if (previous_block && previous_block->is_free)
             {
-                // We extend the previous free block
+                // We extend the previous free block.
                 previous_block->size += current_block->size;
-                // The current node is elected to be removed
+                
+                // The current node is elected to be removed.
                 free_node(current_node);
                 merged = true;
             }
-
-            if(!merged)
+            
+            if (!merged)
             {
-                // There is no free block around
+                // There is no free block around.
                 current_block->is_free = true;
             }
             
             break;
         }
-       
+        
         previous_block = current_node->value;
         current_node = current_node->next;
     }
@@ -109,19 +113,19 @@ int nbloclibres()
 {
     Node* current_node = list.head;
     int num_free_blocks = 0;
-
+    
     while (current_node)
     {
-	Block* current_block = (Block*)current_node->value;
-	
-	if (current_block->is_free)
-	{
-	    ++num_free_blocks;
-	}
-
-	current_node = current_node->next;
+        Block* current_block = (Block*)current_node->value;
+        
+        if (current_block->is_free)
+        {
+            ++num_free_blocks;
+        }
+        
+        current_node = current_node->next;
     }
-
+    
     return num_free_blocks;
 }
 
@@ -129,19 +133,19 @@ int nblocalloues()
 {
     Node* current_node = list.head;
     int num_alloc_blocks = 0;
-
+    
     while (current_node)
     {
-	Block* current_block = (Block*)current_node->value;
-	
-	if (!current_block->is_free)
-	{
-	    ++num_alloc_blocks;
-	}
-
-	current_node = current_node->next;
+        Block* current_block = (Block*)current_node->value;
+        
+        if (!current_block->is_free)
+        {
+            ++num_alloc_blocks;
+        }
+        
+        current_node = current_node->next;
     }
-
+    
     return num_alloc_blocks;
 }
 
@@ -149,19 +153,19 @@ int memlibre()
 {
     Node* current_node = list.head;
     int num_free_mem = 0;
-
+    
     while (current_node)
     {
-	Block* current_block = (Block*)current_node->value;
-	
-	if (current_block->is_free)
-	{
-	    num_free_mem += current_block->size;
-	}
-
-	current_node = current_node->next;
+        Block* current_block = (Block*)current_node->value;
+        
+        if (current_block->is_free)
+        {
+            num_free_mem += current_block->size;
+        }
+        
+        current_node = current_node->next;
     }
-
+    
     return num_free_mem;
 }
 
@@ -169,19 +173,19 @@ int mem_pgrand_libre()
 {
     Node* current_node = list.head; 
     int num_free_highest_mem = 0;
-
+    
     while (current_node)
     {
-	Block* current_block = (Block*)current_node->value;
+        Block* current_block = (Block*)current_node->value;
 	
 	if (current_block->is_free && current_block->size > num_free_highest_mem)
-	{
-	    num_free_highest_mem = current_block->size;
-	}
-
-	current_node = current_node->next;
+        {
+            num_free_highest_mem = current_block->size;
+        }
+        
+        current_node = current_node->next;
     }
-
+    
     return num_free_highest_mem;
 }
 
@@ -194,11 +198,11 @@ bool mem_est_alloue(void* pOctet)
 {
     Node* current_node = list.head;
     Block* current_block = NULL;
-
+    
     while (current_node)
     {
         current_block = (Block*)current_node->value;
-
+        
         if (current_block->address + current_block->size > pOctet)
         {
             return !current_block->is_free;
@@ -206,6 +210,6 @@ bool mem_est_alloue(void* pOctet)
         
         current_node = current_node->next;
     }
-
+    
     return false;
 }

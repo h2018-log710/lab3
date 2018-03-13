@@ -8,7 +8,7 @@ VPATH=src
 ODIR=obj
 BINDIR=bin
 
-objects=main.o memory_manager.o first_fit.o best_fit.o worst_fit.o next_fit.o list.o
+objects=main.o memory_manager.o first_fit.o best_fit.o worst_fit.o list.o
 extra_objects=
 
 $(TARGET): $(objects) $(EXTRA_TARGET)

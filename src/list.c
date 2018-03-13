@@ -26,20 +26,20 @@ void list_insert_after(List* list, void* value, Node* node)
     if (list && node)
     {
         Node* current_node = list->head;
-
-        while(current_node)
+        
+        while (current_node)
         {
-            if(current_node == node)
+            if (current_node == node)
             {
                 Node* new_node = malloc(sizeof(Node));
-
+                
                 new_node->value = value;
                 new_node->next = current_node->next;
                 current_node->next = new_node;
-
+                
                 break;
             }
-
+            
             current_node = current_node->next;
         }
     }
@@ -51,23 +51,24 @@ void list_remove(List* list, Node* node)
     {
         Node* current_node = list->head;
         Node* previous_node = NULL;
-
-        while(current_node)
+        
+        while (current_node)
         {
-            if(current_node == node)
+            if (current_node == node)
             {
-                if(current_node == list->head)
+                if (current_node == list->head)
                 {
                     list->head = current_node->next;
                 }
-               
-                if(previous_node)
+                
+                if (previous_node)
                 {
                     previous_node->next = current_node->next;
                 }
-
+                
                 current_node->value = NULL;
                 free(current_node);
+                
                 break;
             }
 
@@ -76,4 +77,3 @@ void list_remove(List* list, Node* node)
         }
     }
 }
-
