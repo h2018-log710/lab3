@@ -18,12 +18,7 @@ Block* first_fit_alloumem(size_t size)
             {
                 if (free_block->size != 0)
                 {
-                    Node* next_node = current_node->next;
-                    Node* free_node = malloc(sizeof(Node));
-                    
-                    free_node->value = free_block;
-                    free_node->next = next_node;
-                    current_node->next = free_node;
+                    list_insert_after(&list, free_block, current_node);
                 }
                 
                 break;

@@ -30,7 +30,7 @@ void free_node(Node* node);
 
 void initmem();
 Block* alloumem(size_t size, AllocationStrategy alloc_strategy);
-void liberemem(void* pBloc);
+void liberemem(Block* pBloc);
 int nbloclibres();
 int nblocalloues();
 int memlibre();

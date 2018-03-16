@@ -74,7 +74,7 @@ Block* alloumem(size_t size, AllocationStrategy alloc_strategy)
     }
 }
 
-void liberemem(void* pBloc)
+void liberemem(Block* pBloc)
 {
     Node* current_node = list.head;
     Block* previous_block = NULL;

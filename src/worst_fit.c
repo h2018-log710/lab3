@@ -30,12 +30,7 @@ Block* worst_fit_alloumem(size_t size)
         {
             if (free_block->size != 0)
             {
-                Node* next_node = candidate_node->next;
-                Node* free_node = malloc(sizeof(Node));
-                
-                free_node->value = free_block;
-                free_node->next = next_node;
-                candidate_node->next = free_node;
+                list_insert_after(&list, free_block, candidate_node);
             }
             
             return candidate_block;

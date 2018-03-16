@@ -1,4 +1,3 @@
-#include <stdlib.h>
 #include <stdio.h>
 #include <errno.h>
 #include <string.h>
@@ -55,13 +54,13 @@ int main(int argc, char* argv[])
     
     printf("Allocation ");    
     
-    Block* a = alloumem(2, WORST_FIT);
-    Block* b = alloumem(5, WORST_FIT);
-    Block* c = alloumem(3, WORST_FIT);
-    Block* d = alloumem(2, WORST_FIT);
+    Block* a = alloumem(2, BEST_FIT);
+    Block* b = alloumem(5, BEST_FIT);
+    Block* c = alloumem(3, BEST_FIT);
+    Block* d = alloumem(2, BEST_FIT);
     liberemem(a);
     liberemem(c);
-    Block* e = alloumem(1, WORST_FIT);
+    Block* e = alloumem(1, BEST_FIT);
     
     printf("[Blocs libres: %d Blocs alloues: %d]\n", nbloclibres(), nblocalloues());
     printf("[Memoire libre: %d Taille bloc libre eleve: %d]\n", memlibre(), mem_pgrand_libre());
