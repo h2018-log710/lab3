@@ -11,9 +11,11 @@ extern List list;
 
 typedef enum ALLOCATION_STRATEGY
 {
-    FIRST_FIT,
-    BEST_FIT,
-    WORST_FIT
+    AS_INVALID,
+    AS_FIRST_FIT,
+    AS_BEST_FIT,
+    AS_WORST_FIT,
+    AS_NEXT_FIT
 } AllocationStrategy;
 
 typedef struct Block
@@ -35,8 +37,8 @@ int nbloclibres();
 int nblocalloues();
 int memlibre();
 int mem_pgrand_libre();
-int mem_small_free(int maxTaillePetit);
-bool mem_est_alloue(unsigned char pOctet);
+int mem_small_free(size_t maxTaillePetit);
+bool mem_est_alloue(intptr_t pOctet);
 
 Block* first_fit_alloumem(size_t size);
 Block* best_fit_alloumem(size_t size);

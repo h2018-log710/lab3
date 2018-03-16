@@ -63,14 +63,16 @@ Block* alloumem(size_t size, AllocationStrategy alloc_strategy)
 {
     switch (alloc_strategy)
     {
-        case FIRST_FIT:
+        case AS_FIRST_FIT:
             return first_fit_alloumem(size);
-        case BEST_FIT:
+        case AS_BEST_FIT:
             return best_fit_alloumem(size);
-        case WORST_FIT:
+        case AS_WORST_FIT:
             return worst_fit_alloumem(size);
+        case AS_NEXT_FIT:
+            return next_fit_alloumem(size);
         default:
-            return first_fit_alloumem(size);
+            return NULL;
     }
 }
 
@@ -192,8 +194,8 @@ int mem_pgrand_libre()
     while (current_node)
     {
         Block* current_block = (Block*)current_node->value;
-	
-	if (current_block->is_free && current_block->size > num_free_highest_mem)
+        
+        if (current_block->is_free && current_block->size > num_free_highest_mem)
         {
             num_free_highest_mem = current_block->size;
         }
@@ -204,12 +206,27 @@ int mem_pgrand_libre()
     return num_free_highest_mem;
 }
 
-int mem_small_free(int maxTaillePetit)
+int mem_small_free(size_t maxTaillePetit)
 {
-    return 0;
+    Node* current_node = list.head;
+    int num_free_small_blocks = 0;
+    
+    while (current_node)
+    {
+        Block* current_block = (Block*)current_node->value;
+        
+        if (current_block->is_free && current_block->size < maxTaillePetit)
+        {
+            ++num_free_small_blocks;
+        }
+        
+        current_node = current_node->next;
+    }
+    
+    return num_free_small_blocks;
 }
 
-bool mem_est_alloue(unsigned char pOctet)
+bool mem_est_alloue(intptr_t pOctet)
 {
     Node* current_node = list.head;
     Block* current_block = NULL;
