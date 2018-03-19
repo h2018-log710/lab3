@@ -4,8 +4,6 @@
 
 #include "memory_manager.h"
 
-#define FUCK_YOU 10 // 'merica
-
 void affiche_etat_memoire()
 {
     const char alloc_c = 'X';
@@ -45,11 +43,11 @@ void affiche_etat_memoire()
     }
 }
 
-void affiche_parametres_memoire(int maxTaillePetit)
+void affiche_parametres_memoire()
 {
     printf("[Blocs libres: %d Blocs alloues: %d]\n", nbloclibres(), nblocalloues());
     printf("[Memoire libre: %d Taille bloc libre eleve: %d]\n", memlibre(), mem_pgrand_libre());
-    printf("[Blocs libres plus petits que %d: %d]\n", maxTaillePetit, mem_small_free(maxTaillePetit));
+    printf("[Blocs libres plus petits que %d: %d]\n", TOTAL_MEMORY, mem_small_free(TOTAL_MEMORY));
 }
 
 AllocationStrategy validate_arguments(int argc, char* argv[])
@@ -88,41 +86,40 @@ int main(int argc, char* argv[])
     {
         initmem();
         
-        // TODO What the hell am I supposed to do with this fucking parameter?
-        // The stupid pdf isn't clear at all and it seems affiche_parametres_memoire shouldn't have any parameters.
-        // WHAT THE FUCK?!
-        affiche_parametres_memoire(FUCK_YOU);
+        affiche_parametres_memoire();
         affiche_etat_memoire();
         printf("\n");
         
         Block* a = alloumem(4, alloc_strategy);
+        affiche_parametres_memoire();
         affiche_etat_memoire();
         printf("\n");
-        Block* b = alloumem(4, alloc_strategy);
-        affiche_etat_memoire();
-        printf("\n");
-        Block* c = alloumem(4, alloc_strategy);
-        affiche_etat_memoire();
-        printf("\n");
-        Block* d = alloumem(4, alloc_strategy);
-        liberemem(a);
-        liberemem(c);
-        affiche_etat_memoire();
-        printf("\n");
-        Block* e = alloumem(4, alloc_strategy);
-        printf("\n");
-        Block* f = alloumem(4, alloc_strategy);
-        printf("\n");
-        Block* g = alloumem(4, alloc_strategy);
         
-        affiche_parametres_memoire(FUCK_YOU);
+        liberemem(a);
+        Block* b = alloumem(8, alloc_strategy);
+        affiche_parametres_memoire();
         affiche_etat_memoire();
+        printf("\n");
+
+        Block* c = alloumem(4, alloc_strategy);
+        affiche_parametres_memoire();
+        affiche_etat_memoire();
+        printf("\n");
+
+        Block* d = alloumem(8, alloc_strategy);
+        affiche_parametres_memoire();
+        affiche_etat_memoire();
+        printf("\n");
+
+        liberemem(c);
+        Block* e = alloumem(4, alloc_strategy);
+        affiche_parametres_memoire();
+        affiche_etat_memoire();
+        printf("\n");
         
         liberemem(b);
         liberemem(d);
         liberemem(e);
-        liberemem(f);
-        liberemem(g);
         
         return 0;
     }
