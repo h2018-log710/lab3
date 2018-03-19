@@ -50,6 +50,11 @@ Node* create_node(size_t size, uintptr_t address, bool is_free)
 
 void free_node(Node* node)
 {
+    if(node == last_fitted_Node)
+    {
+        last_fitted_Node = last_fitted_Node->next;
+    }
+
     free(node->value);
     list_remove(&list, node);
 }

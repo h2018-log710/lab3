@@ -93,14 +93,27 @@ int main(int argc, char* argv[])
         // WHAT THE FUCK?!
         affiche_parametres_memoire(FUCK_YOU);
         affiche_etat_memoire();
+        printf("\n");
         
-        Block* a = alloumem(2, alloc_strategy);
-        Block* b = alloumem(5, alloc_strategy);
-        Block* c = alloumem(3, alloc_strategy);
-        Block* d = alloumem(2, alloc_strategy);
+        Block* a = alloumem(4, alloc_strategy);
+        affiche_etat_memoire();
+        printf("\n");
+        Block* b = alloumem(4, alloc_strategy);
+        affiche_etat_memoire();
+        printf("\n");
+        Block* c = alloumem(4, alloc_strategy);
+        affiche_etat_memoire();
+        printf("\n");
+        Block* d = alloumem(4, alloc_strategy);
         liberemem(a);
         liberemem(c);
-        Block* e = alloumem(1, alloc_strategy);
+        affiche_etat_memoire();
+        printf("\n");
+        Block* e = alloumem(4, alloc_strategy);
+        printf("\n");
+        Block* f = alloumem(4, alloc_strategy);
+        printf("\n");
+        Block* g = alloumem(4, alloc_strategy);
         
         affiche_parametres_memoire(FUCK_YOU);
         affiche_etat_memoire();
@@ -108,6 +121,8 @@ int main(int argc, char* argv[])
         liberemem(b);
         liberemem(d);
         liberemem(e);
+        liberemem(f);
+        liberemem(g);
         
         return 0;
     }

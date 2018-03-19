@@ -5,9 +5,12 @@
 #include <stdint.h>
 #include "list.h"
 
-#define TOTAL_MEMORY 0x100
+#define TOTAL_MEMORY 0x18
 
 extern List list;
+
+// for next_fit
+extern Node* last_fitted_Node;
 
 typedef enum ALLOCATION_STRATEGY
 {
