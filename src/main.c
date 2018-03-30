@@ -51,103 +51,88 @@ void affiche_parametres_memoire()
     printf("[Blocs libres plus petits que %d: %d]\n", TOTAL_MEMORY, mem_small_free(TOTAL_MEMORY));
 }
 
-AllocationStrategy validate_arguments(int argc, char* argv[])
+AllocationStrategy get_allocation_stategy(char* strategy_str)
 {
-    if (argc >= 2)
+    if (!strcmp(strategy_str, "first_fit"))
     {
-        if (!strcmp(argv[1], "first_fit"))
-        {
-            return AS_FIRST_FIT;
-        }
-        
-        else if (!strcmp(argv[1], "best_fit"))
-        {
-            return AS_BEST_FIT;
-        }
-        
-        else if (!strcmp(argv[1], "worst_fit"))
-        {
-            return AS_WORST_FIT;
-        }
-        
-        else if (!strcmp(argv[1], "next_fit"))
-        {
-            return AS_NEXT_FIT;
-        }
+        return AS_FIRST_FIT;
+    }  
+    else if (!strcmp(strategy_str, "best_fit"))
+    {
+        return AS_BEST_FIT;
+    }  
+    else if (!strcmp(strategy_str, "worst_fit"))
+    {
+        return AS_WORST_FIT;
     }
-    
+    else if (!strcmp(strategy_str, "next_fit"))
+    {
+        return AS_NEXT_FIT;
+    }
     return AS_INVALID;
 }
 
 int main(int argc, char* argv[])
 {
-    AllocationStrategy alloc_strategy = validate_arguments(argc, argv);
     int count = 0;
     char buff[255];
     char* parse_output = NULL;
     char* args[255];
     Block* block = NULL;
     
-    if (alloc_strategy != AS_INVALID)
-    {
-        initmem();
+    initmem();
         
-        while (true)
+    while (true)
+    {
+        printf("\n");
+        printf("lab3> ");
+        fgets(buff, 255, stdin);
+
+        if(buff[0] != '\n')
         {
-            printf("\n");
-            printf("lab3> ");
-            fgets(buff, 255, stdin);
-
-            if(buff[0] != '\n')
+            count = 0;
+            strtok(buff, "\n");
+            parse_output = strtok(buff, " ");
+            while (parse_output != NULL)
             {
-                count = 0;
-                strtok(buff, "\n");
-                parse_output = strtok(buff, " ");
-                while (parse_output != NULL)
-                {
-                    args[count++] = parse_output;
-                    parse_output = strtok(NULL, " ");
-                }
+                args[count++] = parse_output;
+                parse_output = strtok(NULL, " ");
+            }
 
-                if (strcmp(args[0], "exit") == 0)
+            if (strcmp(args[0], "exit") == 0)
+            {
+                break;
+            }
+            else if (strcmp(args[0], "alloumem") == 0 && count == 3)
+            {
+                block = alloumem(strtol(args[1], NULL, 0), get_allocation_stategy(args[2]));
+                if (block)
                 {
-                    break;
-                }
-                else if (strcmp(args[0], "alloumem") == 0 && count == 2)
-                {
-                    block = alloumem(strtol(args[1], NULL, 0), alloc_strategy);
-                    if (block)
-                    {
-                        printf("Bloc à l'adresse %p alloue.\n", block);
-                    }
-                    else
-                    {
-                        printf("Impossible d'allouer le bloc\n");
-                    }
-
-                }
-                else if (strcmp(args[0], "liberemem") == 0 && count == 2)
-                {
-                    liberemem((void*) strtol(args[1], NULL, 0));
-                }
-                else if (strcmp(args[0], "affiche_etat_memoire") == 0)
-                {
-                    affiche_etat_memoire();
-                }
-                else if (strcmp(args[0], "affiche_parametres_memoire") == 0)
-                {
-                    affiche_parametres_memoire();
+                    printf("Bloc à l'adresse %p alloue.\n", block);
                 }
                 else
                 {
-                    printf("Commande invalide\n");
+                    printf("Impossible d'allouer le bloc\n");
                 }
+
+            }
+            else if (strcmp(args[0], "liberemem") == 0 && count == 2)
+            {
+                liberemem((void*) strtol(args[1], NULL, 0));
+            }
+            else if (strcmp(args[0], "affiche_etat_memoire") == 0)
+            {
+                affiche_etat_memoire();
+            }
+            else if (strcmp(args[0], "affiche_parametres_memoire") == 0)
+            {
+                affiche_parametres_memoire();
+            }
+            else
+            {
+                printf("Commande invalide\n");
             }
         }
-        return 0;
     }
-    
-    printf("Argument invalides.\n");
-    
-    return -1;
+    return 0;
 }
