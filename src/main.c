@@ -84,7 +84,6 @@ int main(int argc, char* argv[])
         
     while (true)
     {
-        printf("\n");
         printf("lab3> ");
         fgets(buff, 255, stdin);
 
